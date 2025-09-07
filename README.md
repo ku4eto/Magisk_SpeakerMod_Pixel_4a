@@ -12,6 +12,7 @@ This module MAY or MAY NOT work with other Google Pixel phones. It is not tested
 ## Requirements
 - Android 12/13/14
 - Magisk v24+
+- Google Pixel 4a phone (obviously)
 
 ## Installation
 1. Download the ZIP file from the [releases](https://github.com/ku4eto/Magisk_SpeakerMod_Pixel_4a/releases) page.
@@ -21,6 +22,8 @@ This module MAY or MAY NOT work with other Google Pixel phones. It is not tested
 
 ## Known issues
 1. The `Alarm` sound level has an issue, where it cannot go below a certain point when done via the physical Volume bottons menu. If its done via the `Settings > Sound`, it may be reduced to minimum, but the sound level is still auidible.
-2. Changing or even checking the runtime values via `tinymizx` will cause the rest of the options to reset and lose the stereo sound. You will need to reboot the phone then.
+2. Changing or even checking the runtime values via `tinymizx` will cause the rest of the options to reset and lose the stereo sound. There is a check to reapply the settings by changing the display state (lock/wake). If nothing works - reboot.
 3. Trying to set a value for `RX0 Mix Digital Volume` lower than `84` will cause some sort of overflow, despite valid range being `0-124`. Possibly related to global level settings.
-4. The `service.sh` check if the values are actually set in `tinymix` does not seem to be running continiously. Not sure if its even needed though.
+
+
+For any issues, there are logs available at `/data/local/tmp/speakermod.log`.
