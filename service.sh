@@ -21,17 +21,17 @@ apply_stereo_speaker()
 {
 
 	local retries=0
-	while [ $retries -lt 20 ]
+	while [ $retries -lt 10 ]
 	do
 		if tinymix >/dev/null 2>&1
 		then
 			break
 		fi
-		sleep 2
+		sleep 3
 		retries=$((retries + 1))
 	done
 
-	if [ $retries -eq 20 ]
+	if [ $retries -eq 10 ]
 	then
 		echo "$(date): ERROR: tinymix not available" >> "$LOG_FILE" 2>&1
 		return 1
@@ -62,10 +62,26 @@ apply_stereo_speaker()
 # Apply settings immediately
 apply_stereo_speaker
 
+monitor_audio_events()
+{
+	# Monitor for audioserver restarts or audio HAL events
+	logcat -T 1 | grep -E "(audioserver|AudioFlinger|audio_hw)" | while read line
+	do
+		if echo "$line" | grep -qE "(screen_state=on|screen_state=off)"
+	then
+			echo "$(date): Audio system event detected: \"$line\"" >> "$LOG_FILE"
+			sleep 1  # Wait for audio system to stabilize
+			apply_stereo_speaker
+		fi
+	done
+}
+
+monitor_audio_events &
+
 # Monitor and reapply if needed (some config may get reset by HAL)
 while true
 do
-	sleep 30
+	sleep 300
 
 	# Check if key controls are still enabled
 	AMP_ENABLED=$(tinymix 2881 2>/dev/null | grep -Eo "On|Off")
