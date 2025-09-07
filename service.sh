@@ -8,7 +8,6 @@ LOG_FILE=/data/local/tmp/speakermod.log
 # Wait for audio system to initialize, otherwise changes will have no effect
 sleep 30
 
-
 # Debug purposes
 #id >> "$LOG_FILE" 2>&1
 #which tinymix >> "$LOG_FILE" 2>&1
@@ -37,13 +36,13 @@ apply_stereo_speaker()
 		echo "$(date): ERROR: tinymix not available" >> "$LOG_FILE" 2>&1
 		return 1
 	fi
-	
+
 	# Enable both amplifiers simultaneously
 	tinymix 2881 1 >> "$LOG_FILE" 2>&1   # AMP Enable (main speaker)
-	tinymix 2913 1 >> "$LOG_FILE" 2>&1   # R AMP Enable (earpiece)  
+	tinymix 2913 1 >> "$LOG_FILE" 2>&1   # R AMP Enable (earpiece)
 	tinymix 2958 1 >> "$LOG_FILE" 2>&1   # Main AMP Enable Switch
 	tinymix 2968 1 >> "$LOG_FILE" 2>&1   # R Main AMP Enable Switch
-   
+
 	# Set the earpiece routing
 	tinymix 3079 SRC0 >> "$LOG_FILE" 2>&1 # RX INT2 MIX2 INP
 
@@ -57,25 +56,29 @@ apply_stereo_speaker()
 	# Enable custom stereo mode
 	tinymix 2724 1 >> "$LOG_FILE" 2>&1	# Set Custom Stereo OnOff
 
-	echo "$(date): Stereo speaker configuration applied" >> "$LOG_FILE" 2>&1 
+	echo "$(date): Stereo speaker configuration applied" >> "$LOG_FILE" 2>&1
 }
 
 # Apply settings immediately
 apply_stereo_speaker
 
 # Monitor and reapply if needed (some config may get reset by HAL)
-# Not sure if monitor works at all
 while true
 do
-	sleep 60
+	sleep 30
 
 	# Check if key controls are still enabled
-	AMP_ENABLED=$(tinymix 2881 2>/dev/null | grep -o "On\|Off")
-	R_AMP_ENABLED=$(tinymix 2913 2>/dev/null | grep -o "On\|Off") 
-	STEREO_ENABLED=$(tinymix 2724 2>/dev/null | grep -o "On\|Off")
+	AMP_ENABLED=$(tinymix 2881 2>/dev/null | grep -Eo "On|Off")
+	echo "AMP Status: $AMP_ENABLED"
+	R_AMP_ENABLED=$(tinymix 2913 2>/dev/null | grep -Eo "On|Off")
+	echo "R_RAMP Status: $R_AMP_ENABLED"
+	STEREO_ENABLED=$(tinymix 2724 2>/dev/null | grep -Eo "On|Off")
+	echo "Stereo status: $STEREO_ENABLED"
+	EAR_MODE=$(tinymix 3090 2>/dev/null | grep -Eo "On|Off")
+	echo "Speaker mode: $EAR_MODE"
 
 	# Reapply if any configurations are missing
-	if [ "$AMP_ENABLED" = "Off" ] || [ "$R_AMP_ENABLED" = "Off" ] || [ "$STEREO_ENABLED" = "Off" ]
+	if [ "$AMP_ENABLED" = "Off" ] || [ "$R_AMP_ENABLED" = "Off" ] || [ "$STEREO_ENABLED" = "Off" ] || [[ $"EAR_MODE" = "Off" ]]
 	then
 		echo "$(date): Reapplying stereo speaker configuration"  >> "$LOG_FILE" 2>&1
 		apply_stereo_speaker
