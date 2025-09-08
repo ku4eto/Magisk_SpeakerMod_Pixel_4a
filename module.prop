@@ -5,4 +5,4 @@ versionCode=3
 author=ku4eto
 description=Stereo speaker mod for alarms, notifications and ring output; for Google Pixel 4a
 support=https://github.com/ku4eto/Magisk_SpeakerMod_Pixel_4a
-updateJson=
+updateJson=https://gist.githubusercontent.com/ku4eto/edaf3d1d7522dc49767703804a99dab5/raw/update.json
