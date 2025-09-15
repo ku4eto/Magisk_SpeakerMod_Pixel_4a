@@ -1900,8 +1900,23 @@
     </path>
 
     <path name="handset">
-        <ctl name="Main AMP Enable Switch" value="1"/>
+	<ctl name="R AMP Enable" value="0" />
         <ctl name="R Main AMP Enable Switch" value="0"/>
+    <!-- Earpiece routing -->
+        <ctl name="SLIM_0_RX Channels" value="One" />
+        <ctl name="SLIM RX0 MUX" value="AIF_MIX1_PB" />
+        <ctl name="RX INT0_2 MUX" value="RX0" />
+        <ctl name="RX INT0 DEM MUX" value="CLSH_DSM_OUT" />
+    
+    <!-- Volume and hardware controls -->
+        <ctl name="RX_EAR Mode" value="1" />
+        <ctl name="EAR_RDAC Switch" value="0" />
+        <ctl name="RX INT0_1 MIX1 INP0" value="0" />
+    
+    <!-- CRITICAL: Disable main/bottom speaker for calls -->
+        <ctl name="AMP Enable" value="1" />
+        <ctl name="Main AMP Enable Switch" value="1"/>
+        <ctl name="Set Custom Stereo OnOff" value="0" />
     </path>
 
     <path name="speaker">
@@ -2137,7 +2152,7 @@
     </path>
 
     <path name="voice-speaker-stereo">
-        <path name="speaker" />
+        <path name="speaker-mono" />
     </path>
 
     <path name="voice-speaker-2">

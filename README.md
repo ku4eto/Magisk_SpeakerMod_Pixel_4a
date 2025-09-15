@@ -1,4 +1,4 @@
-Magisk Stereo Speaker Module for Google Pixel 4a
+Magisk Stereo Speaker Module for Google Pixel 4/4a
 ====================
 
 ## What does this module do?
@@ -12,18 +12,19 @@ This module MAY or MAY NOT work with other Google Pixel phones. It is not tested
 ## Requirements
 - Android 12/13/14
 - Magisk v24+
-- Google Pixel 4a phone (obviously)
+- Google Pixel 4/4a phone (obviously)
 
 ## Installation
-1. Download the ZIP file from the [releases](https://github.com/ku4eto/Magisk_SpeakerMod_Pixel_4a/releases) page.
+1. Download the ZIP file from the [releases](https://github.com/ku4eto/Magisk_SpeakerMod_Pixel_4_4a/releases) page.
 2. Install the module via Magisk.
 3. Reboot.
 4. Wait ~30 seconds, check if the sound of an alarm/call/notification is coming from both speakers.
 
 ## Known issues
 1. The `Alarm` sound level has an issue, where it cannot go below a certain point when done via the physical Volume bottons menu. If its done via the `Settings > Sound`, it may be reduced to minimum, but the sound level is still auidible.
-2. Changing or even checking the runtime values via `tinymizx` will cause the rest of the options to reset and lose the stereo sound. There is a check to reapply the settings by changing the display state (lock/wake). If nothing works - reboot.
+2. Changing or even checking the runtime values via `tinymix` will cause the rest of the options to reset and lose the stereo sound. There is a check to reapply the settings by changing the display state (lock/wake). If nothing works - reboot.
 3. Trying to set a value for `RX0 Mix Digital Volume` lower than `84` will cause some sort of overflow, despite valid range being `0-124`. Possibly related to global level settings.
-
+4. The `Call` sound level has the same issue as in 1.
+5. The Magisk `Update` function does not seem to work with this module for some reason, despite having `updateJson` set properly.
 
 For any issues, there are logs available at `/data/local/tmp/speakermod.log`.
