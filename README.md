@@ -25,6 +25,6 @@ This module MAY or MAY NOT work with other Google Pixel phones. It is not tested
 2. Changing or even checking the runtime values via `tinymix` will cause the rest of the options to reset and lose the stereo sound. There is a check to reapply the settings by changing the display state (lock/wake). If nothing works - reboot.
 3. Trying to set a value for `RX0 Mix Digital Volume` lower than `84` will cause some sort of overflow, despite valid range being `0-124`. Possibly related to global level settings.
 4. The `Call` sound level has the same issue as in 1.
-
+5. The Magisk `Update` function does not seem to work with this module for some reason, despite having `updateJson` set properly.
 
 For any issues, there are logs available at `/data/local/tmp/speakermod.log`.
