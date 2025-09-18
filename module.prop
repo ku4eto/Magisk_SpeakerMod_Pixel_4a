@@ -1,7 +1,7 @@
 id=SpeakerMod
 name=Stereo Speaker Mod for Pixel 4 and 4a
-version=v2.0
-versionCode=20
+version=v2.1
+versionCode=21
 author=ku4eto
 description=Stereo speaker mod for alarms, notifications and ring output; for Google Pixel 4 and 4a
 support=https://github.com/ku4eto/Magisk_SpeakerMod_Pixel_4_4a
