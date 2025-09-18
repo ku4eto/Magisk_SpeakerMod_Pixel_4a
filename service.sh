@@ -79,7 +79,7 @@ monitor_dialer_events()
 	# Monitor for audioserver restarts or audio HAL events
 	logcat -T 1 | awk '/Dialer/ { print }' | while IFS= read -r line
 	do
-		if echo "$line" | grep -qE "INCOMING -> INCALL"
+		if echo "$line" | grep -qE "(INCOMING -> INCALL|OUTGOING -> INCALL)"
 		then
 			echo "$(date): Dialer event detected: \"$line\"" | tee -a "$LOG_FILE" 2>&1
 			sleep 0.2
@@ -87,10 +87,15 @@ monitor_dialer_events()
 			revert_stereo_speaker
 		elif echo "$line" | grep -qE "INCALL -> NO_CALLS"
 		then
-			echo "$(date): Dialer event detected: \"$line\"" | tee -a "$LOG_FILE" 2>&1
-			sleep 0.2
-			apply_stereo_speaker
-			init_monitor_function
+			if [[ "$DISPLAY_STATE_PID" ]]
+			then
+				echo "$(date): Dialer event detected, but Dialer state monitoring PID is still present, not restarting" | tee -a "$LOG_FILE" 2>&1
+			else
+				echo "$(date): Dialer event detected: \"$line\"" | tee -a "$LOG_FILE" 2>&1
+				sleep 0.2
+				apply_stereo_speaker
+				init_monitor_function
+			fi
 		fi
 	done
 }
